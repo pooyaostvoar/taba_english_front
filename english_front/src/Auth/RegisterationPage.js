@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-
-import {AppBar, Toolbar, Typography, IconButton, Button, Grid} from '@material-ui/core'
-import {Menu} from '@material-ui/icons'
-import MenuBar from '../common/MenuBar'
-import app_logo from '../common/app_logo.jpg'
-import RegisterationForm from './RegisterationForm'
+import MenuBar from '../Common/MenuBar'
+import AuthForm from './AuthForm'
 import './RegistrationPage.css'
 class RegistrationPage extends React.Component {
     
@@ -14,7 +10,7 @@ class RegistrationPage extends React.Component {
         return (
             <div className="main_div">
                 <MenuBar/>
-                <RegisterationForm/>
+                <AuthForm/>
             </div>
     );
     }
