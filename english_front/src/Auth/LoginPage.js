@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import MenuBar from '../Common/MenuBar'
 import AuthForm from './AuthForm'
 import './RegistrationPage.css'
-class RegistrationPage extends React.Component {
+class LoginPage extends React.Component {
     
     
     render() {
@@ -10,9 +10,9 @@ class RegistrationPage extends React.Component {
         return (
             <div className="main_div">
                 <MenuBar/>
-                <AuthForm formType="registeration" />
+                <AuthForm formType="login" />
             </div>
     );
     }
   }
-  export default RegistrationPage;
+  export default LoginPage;

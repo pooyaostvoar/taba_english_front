@@ -5,36 +5,50 @@ import AuthNav from './AuthNav';
 class AuthForm extends React.Component {
     constructor(props) {
       super(props);
+      if(props.navType == 'registeration'){
+        this.defaultActiveKey = '/register';
+      }
+      else if(props.navType == 'login'){
+        this.defaultActiveKey = '/login';
+      }
     }
   
-    handleSubmit(event) {
+    sendAuthReq = (event) => {
         event.preventDefault();
         let email = document.getElementById("formBasicEmail").value;
         let password =  document.getElementById("formBasicPassword").value;
-        
         const reqBody = {
-          email: "usernam@g.com", 
-          password:"password"
+          email: email, 
+          password: password
         };
+        
         const requestOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(reqBody)
         };
-        fetch('/auth/login-register/', requestOptions)
+        
+        let reqUrl = '';
+        if(this.props.formType == 'registeration'){
+          reqUrl = '/auth/register/'; 
+        }
+        else if(this.props.formType == 'login'){
+          reqUrl = '/auth/login/'; 
+        }
+        
+        fetch(reqUrl, requestOptions)
             .then(response => response.json())
             .then(data => console.log(data));
   
-  }
-  
+    }
+    
     render() {
       return (
-          
             <div className="row">
             <div className="col-3 reg-form-box">
-              <AuthNav/>
+              <AuthNav navType={this.props.formType}/>
               <br/>
-              <Form onSubmit={this.handleSubmit}>
+              <Form onSubmit={this.sendAuthReq}>
                 <Form.Group controlId="formBasicEmail" >
                   <Form.Label>Email address</Form.Label>
                   <Form.Control type="email" placeholder="Enter email" />
