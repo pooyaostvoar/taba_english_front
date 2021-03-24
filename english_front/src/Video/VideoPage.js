@@ -11,14 +11,16 @@ class VideoPage extends React.Component {
         const videoScreenHeightPercentage = 7/10;
         this.videoHeight = window.innerHeight*videoScreenHeightPercentage;
         this.videoWidth = window.innerWidth*videoScreenWidthPercentage;
+        this.videoId = this.props.match.params.id
       }
+    
         
     render() {
 
         return (
             <div className="video-page-main-div">
                 <MenuBar/>
-                <VideoPlayerBox videoId="1" videoHeight={this.videoHeight}/>
+                <VideoPlayerBox videoId={this.videoId} videoHeight={this.videoHeight}/>
             </div>
     );
     }
