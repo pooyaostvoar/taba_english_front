@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-import {AppBar, Toolbar, Typography, IconButton, Button, Grid} from '@material-ui/core'
-import {Menu} from '@material-ui/icons'
-import MenuBar from '../Common/MenuBar'
+import { Grid } from '@material-ui/core'
 import './HomePage.css'
 class HomePage extends React.Component {
     
@@ -11,7 +9,6 @@ class HomePage extends React.Component {
         
         return (
             <div className="home_main_div">
-                <MenuBar/>
                 <div className="body_div">
                     <Grid
                     container

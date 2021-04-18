@@ -1,10 +1,30 @@
 
 import React, { Component } from 'react';
-
 import { Navbar, Nav, Button } from 'react-bootstrap';
+import {connect} from 'react-redux';
+
+const mapStateToProps = (state, ownProps) => {
+    let username = '';
+    let buttonName = '';
+    let buttonHref = '';
+    if(state.user.username){
+        username = state.user.username;
+        buttonName = 'logout';
+        buttonHref = '/logout';
+    }
+    else{
+        buttonName = 'register';
+        buttonHref = '/register';
+    }
+    return {
+        username,
+        buttonName,
+        buttonHref
+    }
+};
 class MenuBar extends React.Component {
-    render() {
-        
+    
+    render() {    
         return (
             <div className="row">
                 <div className="col-sm-12">
@@ -15,11 +35,13 @@ class MenuBar extends React.Component {
                         <Nav.Link href="#videos">Videos</Nav.Link>
                     </Nav>
                     
-                    <Button variant="outline-light" href="/register">Register</Button>
+                    <Button variant="outline-light" href={this.props.buttonHref}>
+                        {this.props.buttonName}
+                    </Button>
                 </Navbar>
                 </div>
             </div>    
     );
     }
   }
-  export default MenuBar;
+  export default connect(mapStateToProps, null)(MenuBar);

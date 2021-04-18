@@ -1,16 +1,23 @@
 import './App.css';
-
+import {store} from './Store'
 import HomePage from './Home/HomePage'
 import RegistrationPage from './Auth/RegisterationPage'
 import LoginPage from './Auth/LoginPage'
 import React from 'react';
 import { Route, Switch, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import VideoPage from './Video/VideoPage';
+import { Provider } from "react-redux";
+import MenuBar from './Common/MenuBar'
+
+//store.dispatch({ type: 'login', payload:{user:{'username':'pooya'}} })
+
+//store.dispatch({ type: 'logout' })
 
 
-function App() {
+function App() {  
   return (
-    
+    <Provider store={store}>
+      <MenuBar/>
       <Router>
         <Switch>
           <Route exact path="/Home" component={HomePage} />
@@ -22,6 +29,7 @@ function App() {
           <Route path="/video/:id" component={VideoPage}/>
         </Switch>
       </Router>
+    </Provider>
 
   );
 }
