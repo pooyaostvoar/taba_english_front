@@ -9,10 +9,7 @@ import VideoPage from './Video/VideoPage';
 import { Provider } from "react-redux";
 import MenuBar from './Common/MenuBar'
 
-//store.dispatch({ type: 'login', payload:{user:{'username':'pooya'}} })
-
-//store.dispatch({ type: 'logout' })
-
+store.subscribe(() => console.log(store.getState()))
 
 function App() {  
   return (

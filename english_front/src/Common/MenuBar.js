@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import {connect} from 'react-redux';
-
+import {postReq} from './RequestMaker'
 const mapStateToProps = (state, ownProps) => {
     let username = '';
     let buttonName = '';
@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
     if(state.user.username){
         username = state.user.username;
         buttonName = 'logout';
-        buttonHref = '/logout';
+        buttonHref = '';
     }
     else{
         buttonName = 'register';
@@ -23,7 +23,22 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 class MenuBar extends React.Component {
-    
+    clickOnButton = () => {
+        const successFunc = (data) => {
+            console.log(data);
+            this.props.dispatch({ type: 'logout' });
+            window.location.href = '/';
+        }
+        if(this.props.buttonName == 'logout'){
+            let reqProps = {
+                data : {},
+                url : '/auth/logout/',
+                successFunc : successFunc 
+            }
+            postReq(reqProps);
+        }
+        
+    };
     render() {    
         return (
             <div className="row">
@@ -35,7 +50,7 @@ class MenuBar extends React.Component {
                         <Nav.Link href="#videos">Videos</Nav.Link>
                     </Nav>
                     
-                    <Button variant="outline-light" href={this.props.buttonHref}>
+                    <Button variant="outline-light" href={this.props.buttonHref} onClick={this.clickOnButton}>
                         {this.props.buttonName}
                     </Button>
                 </Navbar>
@@ -44,4 +59,4 @@ class MenuBar extends React.Component {
     );
     }
   }
-  export default connect(mapStateToProps, null)(MenuBar);
+  export default connect(mapStateToProps)(MenuBar);

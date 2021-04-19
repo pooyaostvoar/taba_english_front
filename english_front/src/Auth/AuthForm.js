@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import './AuthForm.css'
 import AuthNav from './AuthNav';
+import {connect} from 'react-redux';
+import {postReq} from '../Common/RequestMaker'
+
+
 class AuthForm extends React.Component {
     constructor(props) {
       super(props);
-      if(props.navType == 'registeration'){
-        this.defaultActiveKey = '/register';
+      if(props.formType == 'registeration')
+      {
+        this.submitButtonVal = 'register';
       }
-      else if(props.navType == 'login'){
-        this.defaultActiveKey = '/login';
+      else
+      {
+        this.submitButtonVal = 'login';
       }
     }
   
@@ -22,11 +28,6 @@ class AuthForm extends React.Component {
           password: password
         };
         
-        const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(reqBody)
-        };
         
         let reqUrl = '';
         if(this.props.formType == 'registeration'){
@@ -36,11 +37,24 @@ class AuthForm extends React.Component {
           reqUrl = '/auth/login/'; 
         }
         
-        fetch(reqUrl, requestOptions)
-            .then(response => response.json())
-            .then(data => console.log(data));
-  
-    }
+        const successFunc = reqUrl => { 
+          const f = data => {
+            if(reqUrl === '/auth/login/'){
+              this.props.dispatch({ type: 'login', payload:{ user:data } })
+            }
+            window.location.href = '/'; 
+          };
+          return f;
+        }
+        
+        let reqProps = {
+          data : reqBody,
+          url : reqUrl,
+          successFunc : successFunc(reqUrl)
+        }
+        postReq(reqProps);
+
+      }
     
     render() {
       return (
@@ -59,7 +73,7 @@ class AuthForm extends React.Component {
                   <Form.Control type="password" placeholder="Password" />
                 </Form.Group>
                 <Button variant="primary" type="submit" className="sm-margin" align="right" size="sm">
-                  Register
+                  {this.submitButtonVal}
                 </Button>
               </Form>
             </div>
@@ -68,4 +82,4 @@ class AuthForm extends React.Component {
       );
     }
   }
-  export default AuthForm;
+  export default connect(null, null)(AuthForm);
