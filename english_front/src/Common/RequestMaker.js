@@ -1,3 +1,4 @@
+import {store} from '../Store'
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -19,15 +20,52 @@ export const postReq = (reqProps) => {
     let data = reqProps.data;  
     let successFunc = reqProps.successFunc;
     let csrftoken = getCookie('csrftoken');
+    let headers = { 'Content-Type': 'application/json'};
+    if(csrftoken && csrftoken != '') {
+        headers['X-CSRFToken'] = csrftoken;
+    }
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken },
+        headers: headers,
         body: JSON.stringify(data)
     };
     fetch(url, requestOptions)
-            .then(response => response.json())
+            .then(response => {
+                if(response.status == 401){
+                    store.dispatch({ type: 'logout' });
+                    return 
+                }
+                
+                return response.json();
+            })
             .then(data => {
               successFunc(data)
             });
 }
 
+
+export const getReq = (reqProps) => {
+    let url = reqProps.url; 
+    let data = reqProps.data;  
+    let successFunc = reqProps.successFunc;
+    let csrftoken = getCookie('csrftoken');
+    let headers = { 'Content-Type': 'application/json'};
+    if(csrftoken && csrftoken != '') {
+        headers['X-CSRFToken'] = csrftoken;
+    }
+    const requestOptions = {
+        method: 'GET',
+        headers: headers,
+    };
+    fetch(url, requestOptions)
+            .then(response => {
+                if(response.status == 401){
+                    store.dispatch({ type: 'logout' });
+                    return
+                }
+                return response.json();
+            })
+            .then(data => {
+              successFunc(data)
+            });
+}

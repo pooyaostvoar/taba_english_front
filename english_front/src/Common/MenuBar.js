@@ -2,12 +2,12 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import {connect} from 'react-redux';
-import {postReq} from './RequestMaker'
+import {postReq, getReq} from './RequestMaker'
 const mapStateToProps = (state, ownProps) => {
     let username = '';
     let buttonName = '';
     let buttonHref = '';
-    if(state.user.username){
+    if(state.user && state.user.username){
         username = state.user.username;
         buttonName = 'logout';
         buttonHref = '';
@@ -23,11 +23,13 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 class MenuBar extends React.Component {
+    
+    /*componentDidMount() {
+        
+    }*/
     clickOnButton = () => {
         const successFunc = (data) => {
-            console.log(data);
             this.props.dispatch({ type: 'logout' });
-            window.location.href = '/';
         }
         if(this.props.buttonName == 'logout'){
             let reqProps = {

@@ -42,7 +42,6 @@ class AuthForm extends React.Component {
             if(reqUrl === '/auth/login/'){
               this.props.dispatch({ type: 'login', payload:{ user:data } })
             }
-            window.location.href = '/'; 
           };
           return f;
         }
